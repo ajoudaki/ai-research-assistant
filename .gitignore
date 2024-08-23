@@ -1,0 +1,20 @@
+# Backend (FastAPI)
+venv/*
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+*.log
+*.swp
+
+# Frontend (React)
+node_modules/
+build/
+dist/
+.cache/
+*.log
+*.swp
