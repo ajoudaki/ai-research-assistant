@@ -1,16 +1,21 @@
-import os
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
 
 app = FastAPI(root_path="/api")
 
-
-class Selection(BaseModel):
-    selectedText: str
-
 @app.post("/process-selection")
-async def process_selection(selection: Selection):
-    return {"processed": selection.selectedText}
+async def process_selection(request: Request):
+    data = await request.json()
+    selected_text = data['selection']['text']
+    context = data['selection']['context']
+    
+    # Process the selected text and context here
+    # For now, we'll just return them as part of the response
+    
+    return {
+        "processed_text": selected_text,
+        "processed_context": context,
+        "message": "Selection processed successfully"
+    }
 
 if __name__ == "__main__":
     import uvicorn
