@@ -1,6 +1,11 @@
 # not track secrets 
 .env
 
+# not track jupyter lab anywhere
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+
 # Backend (FastAPI)
 venv/*
 __pycache__/
