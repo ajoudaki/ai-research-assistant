@@ -26,21 +26,21 @@ def process_citation(text, start, end):
     logger.info(f"Entering process_citation function with start={start}, end={end}")
     logger.debug(f"Input text: {text}")
     
-    if text[start:end] != 'cite' or start == 0:
+    if text[start:end][:4] != 'cite' or start == 0:
         logger.info("No citation found or invalid start position. Returning original text.")
         return text
     else:
         start = start - 1
-        end = len(text)
+        end = min(end + 3,len(text))
         logger.debug(f"Adjusted start={start}, end={end}")
 
     slice = text[start:end]
     logger.debug(f"Slice to process: {slice}")
     
     patterns = [
-        (r'\\cite\{[^}]*\}', r'\cite{<CITATION/>}'),
-        (r'\\citet\{[^}]*\}', r'\citet{<CITATION/>}'),
-        (r'\\citep\{[^}]*\}', r'\citep{<CITATION/>}')
+        (r'\\cite\{', r'\cite{<CITATION/>,'),
+        (r'\\citet\{', r'\citet{<CITATION/>,'),
+        (r'\\citep\{', r'\citep{<CITATION/>,'),
     ]
     
     for pattern, replacement in patterns:
@@ -113,7 +113,8 @@ def suggest_citations(latex_fragment):
                         {
                             "type": "text",
                             "text": """
-Please suggest appropriate papers to be cited area marked <CITATION/>.
+Please suggest appropriate papers to be cited area marked <CITATION/>. 
+Avoid papers that are already cited right after <CITATION/> mark.
 
 For each suggested paper, provide a BibTeX entry and a brief explanation of why it's relevant. 
 Format your response as follows for each suggestion:
