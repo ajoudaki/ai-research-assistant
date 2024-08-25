@@ -1,8 +1,23 @@
-from fastapi import FastAPI, Request
+import os
+import logging
+from fastapi import FastAPI, HTTPException, Request
 import bibtexparser
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(root_path="/api")
+
+def log_env_variables():
+    logger.info("Logging all environment variable keys:")
+    for key in os.environ.keys():
+        # Log only the key, not the value, for security reasons
+        logger.info(f"Environment variable present: {key}")
+
+
+log_env_variables()
+
 
 @app.post("/process-selection")
 async def process_selection(request: Request):
