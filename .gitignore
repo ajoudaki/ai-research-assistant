@@ -1,3 +1,6 @@
+# not track secrets 
+.env
+
 # Backend (FastAPI)
 venv/*
 __pycache__/
